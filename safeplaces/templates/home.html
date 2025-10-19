@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ScentSafe</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 20px; }
+        .place { margin-bottom: 10px; }
+        #map { height: 400px; width: 100%; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<h1>ScentSafe - Safe Places</h1>
+
+<form method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit'>Add Safe Place</button>
+</form>
+
+<h2>All Safe Places:</h2>
+{% for place in places %}
+<div class="place">
+    <strong>{{ place.address }}</strong><br>
+    {{ place.comment }}<br>
+    Added on: {{ place.created_at }}
+</div>
+{% empty %}
+<p>No safe places yet.</p>
+{% endfor %}
+
+<div id="map"></div>
+<script>
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: { lat: 37.7749, lng: -122.4194 } // Default center
+    });
+
+    {% for place in places %}
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': '{{ place.address }}' }, function(results, status) {
+        if (status === 'OK') {
+            new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location,
+                title: '{{ place.address }}'
+            });
+        }
+    });
+    {% endfor %}
+}
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap">
+</script>
+</body>
+</html>
