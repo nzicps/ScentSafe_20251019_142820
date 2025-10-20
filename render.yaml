@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: ScentSafe
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py migrate && gunicorn ScentSafe.wsgi:application --bind 0.0.0.0:\
