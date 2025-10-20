@@ -1,7 +1,7 @@
-﻿from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('safeplaces.urls')),
+    path('map/', views.map_view, name='map'),
+    path('add_place/', views.add_place, name='add_place'),
 ]
