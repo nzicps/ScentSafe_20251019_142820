@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScentSafe Map</title>
+    <style>
+        #map {{
+            height: 100vh;
+            width: 100%;
+        }}
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&callback=initMap" async defer></script>
+    <script>
+        let map;
+        function initMap() {{
+            map = new google.maps.Map(document.getElementById("map"), {{
+                center: {{ lat: -36.8485, lng: 174.7633 }}, // Default: Auckland
+                zoom: 12,
+            }});
+
+            // Add marker on click
+            map.addListener("click", (e) => {{
+                new google.maps.Marker({{
+                    position: e.latLng,
+                    map: map,
+                    title: "Safe Place",
+                }});
+            }});
+        }}
+    </script>
+</head>
+<body>
+    <h2 style="text-align:center;">ScentSafe Safe Places Map</h2>
+    <div id="map"></div>
+</body>
+</html>

@@ -31,6 +31,7 @@ DEBUG = False
 # Application definition
 
 INSTALLED_APPS = [
+    'maps',
     'safeplaces',
     'django.contrib.admin',
     'django.contrib.auth',
