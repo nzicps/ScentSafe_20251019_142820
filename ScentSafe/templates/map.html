@@ -7,7 +7,7 @@
 <body>
 <h2>Safe Places Map</h2>
 <div id='map'></div>
-<div id='form'>
+<div>
     <input type='text' id='placeName' placeholder='Place Name'>
     <input type='text' id='placeDesc' placeholder='Description'>
     <button id='addPlaceBtn'>Add Place</button>
@@ -15,38 +15,45 @@
 
 <script>
 let map;
-let markers = [];
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -36.8485, lng: 174.7633 },
         zoom: 12,
     });
-    const places = JSON.parse('{{ places|safe }}'.replace(/&quot;/g,'"'));
+
+    const places = {{ places|safe }};
     places.forEach(p => {
-        const marker = new google.maps.Marker({position: {lat: p.latitude, lng: p.longitude}, map, title: p.name});
-        const info = new google.maps.InfoWindow({content: <h3></h3><p></p>});
+        const marker = new google.maps.Marker({
+            position: { lat: p.latitude, lng: p.longitude },
+            map,
+            title: p.name
+        });
+        const info = new google.maps.InfoWindow({
+            content: <h3></h3><p></p>
+        });
         marker.addListener('click', () => info.open(map, marker));
-        markers.push(marker);
     });
+
     map.addListener('click', (e) => {
-        const lat = e.latLng.lat();
-        const lng = e.latLng.lng();
-        document.getElementById('addPlaceBtn').onclick = () => addPlace(lat, lng);
+        document.getElementById('addPlaceBtn').onclick = () => addPlace(e.latLng.lat(), e.latLng.lng());
     });
 }
+
 function addPlace(lat, lng) {
     const name = document.getElementById('placeName').value;
     const description = document.getElementById('placeDesc').value;
     fetch("{% url 'add_place' %}", {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
         body: JSON.stringify({name, latitude: lat, longitude: lng, description})
     }).then(res => res.json()).then(data => {
-        if(data.status==='success'){
-            const marker = new google.maps.Marker({position:{lat,lng},map,title:name});
-            const info = new google.maps.InfoWindow({content:<h3></h3><p></p>});
+        if (data.status === 'success') {
+            const marker = new google.maps.Marker({ position:{lat,lng}, map, title:name });
+            const info = new google.maps.InfoWindow({ content:<h3></h3><p></p> });
             marker.addListener('click', () => info.open(map, marker));
-            markers.push(marker);
             alert('Place added!');
         }
     });
