@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Place
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.conf import settings
@@ -22,7 +21,6 @@ def add_place(request):
     return JsonResponse({'status': 'error'}, status=400)
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Place
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.conf import settings
