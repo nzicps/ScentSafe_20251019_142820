@@ -128,4 +128,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'scentsafe-20251019-142820.onrender.com']
 
 
-GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY'
+
+GOOGLE_MAPS_API_KEY = 'AIzaSyCyHJkUnLFz9OzQFoOe5TiSIN1McZs1dFs'
