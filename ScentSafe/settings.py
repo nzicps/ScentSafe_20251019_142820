@@ -32,6 +32,7 @@ DEBUG = False
 
 INSTALLED_APPS = [
     'maps.apps.MapsConfig',
+    'maps.apps.MapsConfig',
     'safeplaces',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -43,5 +43,8 @@ def add_place(request):
     return JsonResponse({'status':'error'}, status=400)
 from django.shortcuts import redirect
 
+from django.shortcuts import redirect
+
 def redirect_root(request):
+    return redirect('/map/', permanent=True)  # direct path to /map/
     return redirect('map', permanent=True)  # permanent 301 redirect to /map/
